@@ -6,6 +6,7 @@ const TableUsers = (props) => {
   const [listUsers, setListUsers] = useState([]);
   const [totalUser, setTotalUser] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+
   useEffect(() => {
     // call api
     getUsers(1);
