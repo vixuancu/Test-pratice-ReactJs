@@ -4,6 +4,7 @@ import { fetAllUser } from "../services/UserService";
 import ReactPaginate from "react-paginate";
 import ModalAddNew from "./ModalAddNew";
 import ModalEditUser from "./ModalEditUser";
+import _ from "lodash";
 const TableUsers = (props) => {
   const [listUsers, setListUsers] = useState([]);
   const [totalUser, setTotalUser] = useState(0);
@@ -34,7 +35,15 @@ const TableUsers = (props) => {
     getUsers(+event.selected + 1);
   };
   const handleUpdateTable = (user) => {
-    setListUsers([user, ...listUsers]);
+    let _listUsers = _.cloneDeep(listUsers);
+    setListUsers([user, ..._listUsers]);
+  };
+  const handleEditUserTable = (user) => {
+    // phải dùng lodash copy toán tử ... thì copy luôn cả địa chỉ bị sai
+    let index = listUsers.findIndex((item) => item.id === user.id);
+    let cloneListUser = _.cloneDeep(listUsers);
+    cloneListUser[index].first_name = user.first_name;
+    setListUsers(cloneListUser);
   };
   const handleEditUser = (user) => {
     setDataUserEdit(user);
@@ -118,6 +127,7 @@ const TableUsers = (props) => {
         show={isShowModalEdit}
         dataUserEdit={dataUserEdit}
         handleClose={handleClose}
+        handleEditUserTable={handleEditUserTable}
       />
     </>
   );

@@ -5,4 +5,8 @@ const fetAllUser = (page) => {
 const postCreateUser = (name, job) => {
   return axios.post(`/api/users`, { name, job });
 };
-export { fetAllUser, postCreateUser };
+const updateUser = (id, name, job) => {
+  return axios.put(`/api/users/${id}`, { name, job });
+};
+
+export { fetAllUser, postCreateUser, updateUser };
