@@ -42,6 +42,13 @@ const TableUsers = (props) => {
     let _listUsers = _.cloneDeep(listUsers);
     setListUsers([user, ..._listUsers]);
   };
+  const handleDeleteTable = (user) => {
+    // phải dùng lodash copy toán tử ... thì copy luôn cả địa chỉ bị sai
+
+    let cloneListUser = _.cloneDeep(listUsers);
+    cloneListUser = cloneListUser.filter((item) => item.id !== user.id);
+    setListUsers(cloneListUser);
+  };
   const handleEditUserTable = (user) => {
     // phải dùng lodash copy toán tử ... thì copy luôn cả địa chỉ bị sai
     let index = listUsers.findIndex((item) => item.id === user.id);
@@ -146,6 +153,7 @@ const TableUsers = (props) => {
         show={isShowModalDelete}
         handleClose={handleClose}
         dataUserDelete={dataUserDelete}
+        handleDeleteTable={handleDeleteTable}
       />
     </>
   );
