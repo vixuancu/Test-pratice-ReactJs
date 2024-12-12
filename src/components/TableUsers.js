@@ -4,6 +4,7 @@ import { fetAllUser } from "../services/UserService";
 import ReactPaginate from "react-paginate";
 import ModalAddNew from "./ModalAddNew";
 import ModalEditUser from "./ModalEditUser";
+import ModalConfirm from "./ModalConfirm";
 import _ from "lodash";
 const TableUsers = (props) => {
   const [listUsers, setListUsers] = useState([]);
@@ -12,9 +13,12 @@ const TableUsers = (props) => {
   const [isShowModalAddNew, setIsShowModalAddNew] = useState(false);
   const [isShowModalEdit, setIsShowModalEdit] = useState(false);
   const [dataUserEdit, setDataUserEdit] = useState({});
+  const [dataUserDelete, setDataUserDelete] = useState({});
+  const [isShowModalDelete, setIsShowModalDelete] = useState(false);
   const handleClose = () => {
     setIsShowModalAddNew(false);
     setIsShowModalEdit(false);
+    setIsShowModalDelete(false);
     // viết hàm close tránh bị loop vô hạn
   };
   useEffect(() => {
@@ -48,6 +52,10 @@ const TableUsers = (props) => {
   const handleEditUser = (user) => {
     setDataUserEdit(user);
     setIsShowModalEdit(true);
+  };
+  const handleDeleteUser = (user) => {
+    setIsShowModalDelete(true);
+    setDataUserDelete(user);
   };
   return (
     <>
@@ -83,7 +91,12 @@ const TableUsers = (props) => {
                   <td>{item.first_name}</td>
                   <td>{item.last_name}</td>
                   <td className="actions d-flex ">
-                    <button className="btn btn-danger mx-2">Delete</button>
+                    <button
+                      className="btn btn-danger mx-2"
+                      onClick={() => handleDeleteUser(item)}
+                    >
+                      Delete
+                    </button>
                     <button
                       className="btn btn-warning"
                       onClick={() => handleEditUser(item)}
@@ -128,6 +141,11 @@ const TableUsers = (props) => {
         dataUserEdit={dataUserEdit}
         handleClose={handleClose}
         handleEditUserTable={handleEditUserTable}
+      />
+      <ModalConfirm
+        show={isShowModalDelete}
+        handleClose={handleClose}
+        dataUserDelete={dataUserDelete}
       />
     </>
   );
